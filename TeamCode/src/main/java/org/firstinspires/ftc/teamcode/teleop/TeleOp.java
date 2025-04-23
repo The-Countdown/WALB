@@ -7,7 +7,7 @@ import org.firstinspires.ftc.teamcode.subsystems.Robot;
 
 @com.qualcomm.robotcore.eventloop.opmode.TeleOp(name="TeleOpTesting", group="TeleOp")
 @Config
-public class  TeleOpTesting extends LinearOpMode {
+public class TeleOp extends LinearOpMode {
     @Override
     public void runOpMode() {
         Robot walB = new Robot(this);
@@ -27,15 +27,15 @@ public class  TeleOpTesting extends LinearOpMode {
             walB.drive.setPower(lMotorPower, rMotorPower);
             //head turn
             if (gamepad1.dpad_left) {
-                walB.head.servoRoatation(Robot.HardwareDevices.headRotation.getPosition() - 0.002);
+                walB.head.servoRotation(Robot.HardwareDevices.headRotation.getPosition() - 0.002);
             } else if (gamepad1.dpad_right) {
-                walB.head.servoRoatation(Robot.HardwareDevices.headRotation.getPosition() + 0.002);
+                walB.head.servoRotation(Robot.HardwareDevices.headRotation.getPosition() + 0.002);
             }
             //eye turn
             if (gamepad1.dpad_down) {
-                walB.head.eyeRoatation(Robot.HardwareDevices.eyeRotation.getPosition() - 0.002);
+                walB.head.eyeRotation(Robot.HardwareDevices.eyeRotation.getPosition() - 0.002);
             } else if (gamepad1.dpad_up) {
-                walB.head.eyeRoatation(Robot.HardwareDevices.eyeRotation.getPosition() + 0.002);
+                walB.head.eyeRotation(Robot.HardwareDevices.eyeRotation.getPosition() + 0.002);
             }
 
             //arm up down
@@ -55,8 +55,16 @@ public class  TeleOpTesting extends LinearOpMode {
                 walB.arm.armPower(-0.2);
                 currentLeftPosition = Robot.HardwareDevices.leftArm.getCurrentPosition();
                 currentRightPosition = Robot.HardwareDevices.rightArm.getCurrentPosition();
-            }else walB.arm.armPosition(currentLeftPosition, currentRightPosition);
+            } else {
+                walB.arm.armPosition(currentLeftPosition, currentRightPosition);
+            }
 
+            //claw
+            if (gamepad1.a) {
+                walB.claw.clawPosition(1);
+            } else if (gamepad1.b) {
+                walB.claw.clawPosition(0);
+            }
 
             telemetry.addData("left arm pose", Robot.HardwareDevices.leftArm.getCurrentPosition());
             telemetry.addData("right arm pose", Robot.HardwareDevices.rightArm.getCurrentPosition());

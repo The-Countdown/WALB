@@ -19,7 +19,10 @@ public class Robot {
         public static ServoImplEx headRotation;
         public static ServoImplEx eyeRotation;
         public static DcMotorEx leftArm;
+
         public static DcMotorEx rightArm;
+        public static ServoImplEx leftClaw;
+        public static ServoImplEx rightClaw;
     }
     public Robot(LinearOpMode opMode) {
         this.opMode = opMode;
@@ -32,6 +35,8 @@ public class Robot {
         HardwareDevices.eyeRotation = hardwareMap.get(ServoImplEx.class, "eyeRotation");
         HardwareDevices.leftArm = hardwareMap.get(DcMotorEx.class, "leftArm");
         HardwareDevices.rightArm = hardwareMap.get(DcMotorEx.class, "rightArm");
+        HardwareDevices.leftClaw = hardwareMap.get(ServoImplEx.class, "leftClaw");
+        HardwareDevices.rightClaw = hardwareMap.get(ServoImplEx.class, "rightClaw");
 
 
         HardwareDevices.rightTrack.setDirection(DcMotorEx.Direction.REVERSE);
@@ -57,6 +62,7 @@ public class Robot {
     public Drive drive = new Drive(this);
     public Head head = new Head(this);
     public Arm arm = new Arm(this);
+    public Claw claw = new Claw(this);
 
     //extends Robot.HardwareDevices means it only extends things starting with HardwareDevices in the Robot class
 }
