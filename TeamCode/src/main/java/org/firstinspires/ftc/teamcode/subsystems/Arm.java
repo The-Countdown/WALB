@@ -21,7 +21,7 @@ public class Arm extends Robot.HardwareDevices {
         Robot.HardwareDevices.rightArm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         Robot.HardwareDevices.leftArm.setTargetPosition(left);
         Robot.HardwareDevices.rightArm.setTargetPosition(right);
-        Robot.HardwareDevices.leftArm.setPower(0.2);
-        Robot.HardwareDevices.rightArm.setPower(0.2);
+        Robot.HardwareDevices.leftArm.setPower(0.5);
+        Robot.HardwareDevices.rightArm.setPower(0.5);
     }
 }

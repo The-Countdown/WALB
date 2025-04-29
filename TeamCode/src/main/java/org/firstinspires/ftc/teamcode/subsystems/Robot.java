@@ -39,7 +39,7 @@ public class Robot {
         HardwareDevices.rightClaw = hardwareMap.get(ServoImplEx.class, "rightClaw");
 
 
-        HardwareDevices.rightTrack.setDirection(DcMotorEx.Direction.REVERSE);
+        HardwareDevices.leftTrack.setDirection(DcMotorEx.Direction.REVERSE);
         HardwareDevices.leftArm.setDirection(DcMotorSimple.Direction.REVERSE);
         HardwareDevices.leftTrack.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         HardwareDevices.rightTrack.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);

@@ -8,6 +8,9 @@ import org.firstinspires.ftc.teamcode.subsystems.Robot;
 @com.qualcomm.robotcore.eventloop.opmode.TeleOp(name="TeleOpTesting", group="TeleOp")
 @Config
 public class TeleOp extends LinearOpMode {
+    private static int targetLeftPosition = 0;
+    private static int targetRightPosition = 0;
+
     @Override
     public void runOpMode() {
         Robot walB = new Robot(this);
@@ -27,9 +30,9 @@ public class TeleOp extends LinearOpMode {
             walB.drive.setPower(lMotorPower, rMotorPower);
             //head turn
             if (gamepad1.dpad_left) {
-                walB.head.servoRotation(Robot.HardwareDevices.headRotation.getPosition() - 0.002);
+                walB.head.servoRotation(Robot.HardwareDevices.headRotation.getPosition() - 0.02);
             } else if (gamepad1.dpad_right) {
-                walB.head.servoRotation(Robot.HardwareDevices.headRotation.getPosition() + 0.002);
+                walB.head.servoRotation(Robot.HardwareDevices.headRotation.getPosition() + 0.02);
             }
             //eye turn
             if (gamepad1.dpad_down) {
@@ -41,23 +44,18 @@ public class TeleOp extends LinearOpMode {
             //arm up down
             double armPower = gamepad1.right_trigger - gamepad1.left_trigger;
 
-            walB.arm.armPower(armPower);
+//            walB.arm.armPower(armPower);
             //walB.arm.armPosition();
 
-            int currentLeftPosition = 0;
-            int currentRightPosition = 0;
-
             if (gamepad1.right_bumper) {
-                walB.arm.armPower(0.2);
-                currentLeftPosition = Robot.HardwareDevices.leftArm.getCurrentPosition();
-                currentRightPosition = Robot.HardwareDevices.rightArm.getCurrentPosition();
+                targetRightPosition += 2;
+                targetLeftPosition += 2;
             } else if (gamepad1.left_bumper) {
-                walB.arm.armPower(-0.2);
-                currentLeftPosition = Robot.HardwareDevices.leftArm.getCurrentPosition();
-                currentRightPosition = Robot.HardwareDevices.rightArm.getCurrentPosition();
-            } else {
-                walB.arm.armPosition(currentLeftPosition, currentRightPosition);
+                targetRightPosition -= 2;
+                targetLeftPosition -= 2;
             }
+
+            walB.arm.armPosition(targetLeftPosition, targetRightPosition);
 
             //claw
             if (gamepad1.a) {
@@ -68,6 +66,8 @@ public class TeleOp extends LinearOpMode {
 
             telemetry.addData("left arm pose", Robot.HardwareDevices.leftArm.getCurrentPosition());
             telemetry.addData("right arm pose", Robot.HardwareDevices.rightArm.getCurrentPosition());
+            telemetry.addData("left target", targetLeftPosition);
+            telemetry.addData("right target", targetRightPosition);
             telemetry.update();
         }
     }
