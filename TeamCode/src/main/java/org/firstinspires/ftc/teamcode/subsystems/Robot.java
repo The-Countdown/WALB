@@ -7,6 +7,11 @@ import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.ServoImplEx;
 
+import com.qualcomm.hardware.limelightvision.LLResult;
+import com.qualcomm.hardware.limelightvision.LLResultTypes;
+import com.qualcomm.hardware.limelightvision.LLStatus;
+import com.qualcomm.hardware.limelightvision.Limelight3A;
+
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 
 public class Robot {
@@ -23,6 +28,7 @@ public class Robot {
         public static DcMotorEx rightArm;
         public static ServoImplEx leftClaw;
         public static ServoImplEx rightClaw;
+        public static Limelight3A limelight;
     }
     public Robot(LinearOpMode opMode) {
         this.opMode = opMode;
@@ -58,11 +64,17 @@ public class Robot {
         HardwareDevices.rightArm.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         HardwareDevices.leftArm.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         HardwareDevices.rightArm.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+
+        //limelight
+        HardwareDevices.limelight = hardwareMap.get(Limelight3A.class, "limelight");
+        HardwareDevices.limelight.setPollRateHz(100); // This sets how often we ask Limelight for data (100 times per second)
+        HardwareDevices.limelight.start(); // This tells Limelight to start looking!
     }
     public Drive drive = new Drive(this);
     public Head head = new Head(this);
     public Arm arm = new Arm(this);
     public Claw claw = new Claw(this);
+    public limelight limelight = new limelight(this);
 
     //extends Robot.HardwareDevices means it only extends things starting with HardwareDevices in the Robot class
 }
