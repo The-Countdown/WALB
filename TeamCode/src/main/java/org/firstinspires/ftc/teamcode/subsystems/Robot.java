@@ -7,9 +7,6 @@ import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.ServoImplEx;
 
-import com.qualcomm.hardware.limelightvision.LLResult;
-import com.qualcomm.hardware.limelightvision.LLResultTypes;
-import com.qualcomm.hardware.limelightvision.LLStatus;
 import com.qualcomm.hardware.limelightvision.Limelight3A;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
@@ -74,7 +71,7 @@ public class Robot {
     public Head head = new Head(this);
     public Arm arm = new Arm(this);
     public Claw claw = new Claw(this);
-    public limelight limelight = new limelight(this);
+    public Limelight limelight = new Limelight(this);
 
     //extends Robot.HardwareDevices means it only extends things starting with HardwareDevices in the Robot class
 }
