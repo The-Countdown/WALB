@@ -25,7 +25,7 @@ public class Robot {
         public static DcMotorEx rightArm;
         public static ServoImplEx leftClaw;
         public static ServoImplEx rightClaw;
-        //public static Limelight3A limelight;
+        public static Limelight3A limelight;
     }
     public Robot(LinearOpMode opMode) {
         this.opMode = opMode;
@@ -61,11 +61,11 @@ public class Robot {
         HardwareDevices.rightArm.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
         //limelight
-        /*
+
         HardwareDevices.limelight = hardwareMap.get(Limelight3A.class, "limelight");
         HardwareDevices.limelight.setPollRateHz(100); // This sets how often we ask Limelight for data (100 times per second)
         HardwareDevices.limelight.start(); // This tells Limelight to start looking!
-         */
+
     }
     public Drive drive = new Drive(this);
     public Head head = new Head(this);
