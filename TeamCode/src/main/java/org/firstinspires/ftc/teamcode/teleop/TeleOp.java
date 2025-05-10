@@ -17,7 +17,6 @@ public class TeleOp extends LinearOpMode {
         // Runs once on init
         Robot.HardwareDevices.headRotation.setPosition(0.5);
         Robot.HardwareDevices.eyeRotation.setPosition(0.5);
-
         Robot.HardwareDevices.headRotation.scaleRange(0.2, 0.8);
 
         waitForStart();
@@ -44,15 +43,15 @@ public class TeleOp extends LinearOpMode {
             //arm up down
             double armPower = gamepad1.right_trigger - gamepad1.left_trigger;
 
-//            walB.arm.armPower(armPower);
+            //walB.arm.armPower(armPower);
             //walB.arm.armPosition();
 
             if (gamepad1.right_bumper) {
-                targetRightPosition += 2;
-                targetLeftPosition += 2;
+                targetRightPosition += 1;
+                targetLeftPosition += 1;
             } else if (gamepad1.left_bumper) {
-                targetRightPosition -= 2;
-                targetLeftPosition -= 2;
+                targetRightPosition -= 1;
+                targetLeftPosition -= 1;
             }
 
             walB.arm.armPosition(targetLeftPosition, targetRightPosition);
