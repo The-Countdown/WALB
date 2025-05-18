@@ -9,4 +9,7 @@ public class Limelight extends Robot.HardwareDevices{
     public void setPipeline(int pipeline) {
         Robot.HardwareDevices.limelight.pipelineSwitch(pipeline);
     }
+
+    public int driveToAprilTag() {
+    }
 }

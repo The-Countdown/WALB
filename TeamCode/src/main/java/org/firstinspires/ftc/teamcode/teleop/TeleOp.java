@@ -8,8 +8,6 @@ import org.firstinspires.ftc.teamcode.subsystems.Robot;
 @com.qualcomm.robotcore.eventloop.opmode.TeleOp(name="TeleOpTesting", group="TeleOp")
 @Config
 public class TeleOp extends LinearOpMode {
-    private static int targetLeftPosition = 0;
-    private static int targetRightPosition = 0;
 
     @Override
     public void runOpMode() {
@@ -18,6 +16,8 @@ public class TeleOp extends LinearOpMode {
         Robot.HardwareDevices.headRotation.setPosition(0.5);
         Robot.HardwareDevices.eyeRotation.setPosition(0.5);
         Robot.HardwareDevices.headRotation.scaleRange(0.2, 0.8);
+        int targetLeftPosition = Robot.HardwareDevices.leftArm.getCurrentPosition();
+        int  targetRightPosition = Robot.HardwareDevices.rightArm.getCurrentPosition();
 
         waitForStart();
         // Runs repeatedly
@@ -61,7 +61,7 @@ public class TeleOp extends LinearOpMode {
                 walB.claw.clawPosition(1);
             } else if (gamepad1.b) {
                 walB.claw.clawPosition(0);
-            }
+            } else
 
             telemetry.addData("left arm pose", Robot.HardwareDevices.leftArm.getCurrentPosition());
             telemetry.addData("right arm pose", Robot.HardwareDevices.rightArm.getCurrentPosition());
