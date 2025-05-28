@@ -1,14 +1,20 @@
 package org.firstinspires.ftc.teamcode.teleop;
 
 import com.acmerobotics.dashboard.config.Config;
+import com.qualcomm.hardware.limelightvision.LLResult;
+import com.qualcomm.hardware.limelightvision.LLResultTypes;
+import com.qualcomm.hardware.limelightvision.Limelight3A;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
+import org.firstinspires.ftc.teamcode.subsystems.Limelight;
 import org.firstinspires.ftc.teamcode.subsystems.Robot;
+
+import java.util.List;
 
 @com.qualcomm.robotcore.eventloop.opmode.TeleOp(name="TeleOpTesting", group="TeleOp")
 @Config
 public class TeleOp extends LinearOpMode {
-
+    private Limelight3A limelight;
     @Override
     public void runOpMode() {
         Robot walB = new Robot(this);
@@ -18,6 +24,8 @@ public class TeleOp extends LinearOpMode {
         Robot.HardwareDevices.headRotation.scaleRange(0.2, 0.8);
         int targetLeftPosition = Robot.HardwareDevices.leftArm.getCurrentPosition();
         int  targetRightPosition = Robot.HardwareDevices.rightArm.getCurrentPosition();
+        limelight.setPollRateHz(100);
+        limelight.start();
 
         waitForStart();
         // Runs repeatedly
@@ -53,21 +61,39 @@ public class TeleOp extends LinearOpMode {
                 targetRightPosition -= 1;
                 targetLeftPosition -= 1;
             }
-
             walB.arm.armPosition(targetLeftPosition, targetRightPosition);
+            telemetry.addData("left arm pose", Robot.HardwareDevices.leftArm.getCurrentPosition());
+            telemetry.addData("right arm pose", Robot.HardwareDevices.rightArm.getCurrentPosition());
+            telemetry.addData("left target", targetLeftPosition);
+            telemetry.addData("right target", targetRightPosition);
 
             //claw
             if (gamepad1.a) {
                 walB.claw.clawPosition(1);
             } else if (gamepad1.b) {
                 walB.claw.clawPosition(0);
-            } else
+            }
 
-            telemetry.addData("left arm pose", Robot.HardwareDevices.leftArm.getCurrentPosition());
-            telemetry.addData("right arm pose", Robot.HardwareDevices.rightArm.getCurrentPosition());
-            telemetry.addData("left target", targetLeftPosition);
-            telemetry.addData("right target", targetRightPosition);
+            //even number
+            if (Limelight.getAprilTagID() % 2 == 1) {
+                walB.head.eyeRotation(0);
+                telemetry.addLine("even");
+            } else if (Limelight.getAprilTagID() % 2 == 0) {
+                walB.head.eyeRotation(1);
+                telemetry.addLine("odd");
+            }
+
+            if (gamepad1.x) {
+                walB.limelight.driveToTag();
+            }
             telemetry.update();
         }
     }
 }
+
+
+/*
+drive towards tag
+
+
+ */
