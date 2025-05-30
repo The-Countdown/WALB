@@ -9,44 +9,48 @@ import java.util.List;
 
 public class Limelight extends Robot.HardwareDevices {
     private final Robot walB;
+    public boolean isRunning = false;
 
     public Limelight(Robot walB) {
         this.walB = walB;
     }
 
-    public void setPipeline(int pipeline) {
-        Robot.HardwareDevices.limelight.pipelineSwitch(pipeline);
-    }
-
-    public static int getAprilTagID() {
-        return Robot.HardwareDevices.limelight.getLatestResult().getFiducialResults().get(0).getFiducialId();
+    public int getAprilTagID() {
+        if (Robot.HardwareDevices.limelight.getLatestResult().isValid()) {
+            return Robot.HardwareDevices.limelight.getLatestResult().getFiducialResults().get(0).getFiducialId();
+        } else {
+            return -1;
+        }
     }
     public void driveToTag() {
         //if theres an april tag (?? does .isValid means theres an april tag?)
         if (Robot.HardwareDevices.limelight.getLatestResult().isValid()) {
-            //get robot pose
+            isRunning = true;
             Pose3D pose = Robot.HardwareDevices.limelight.getLatestResult().getFiducialResults().get(0).getTargetPoseCameraSpace();
             double y = pose.getPosition().y;
             double z = pose.getPosition().z;
             double yaw = Math.toDegrees(pose.getOrientation().getYaw());//deg
-            double goalDistance = 0.5; //0.5 meters away from tag
+            double goalDistance = 0.3; //0.3 meters away from tag
             double distanceError = z - goalDistance;
 
             if (distanceError < 0.05 && yaw < 2) {
                 walB.drive.setPower(0, 0);
+                isRunning = false;
             }
             //tune
-            double kforward = 0.5;
-            double kturn = 0.02;
+            double kforward = 4;
+            double kturn = 0;
             //drive values
             double forwardPower = kforward * distanceError;
             double turnPower = yaw * kturn;
-            //motor powers
-            double leftpower = forwardPower - turnPower;
-            double rightpower = forwardPower + turnPower;
+            //motor powers (make sure right wheels turning might have to reverse)
+            double leftpower = -forwardPower - turnPower;
+            double rightpower = -forwardPower + turnPower;
 
             walB.drive.setPower(leftpower, rightpower);
+
         } else {
+            isRunning = false;
             walB.drive.setPower(0, 0);
         }
     }

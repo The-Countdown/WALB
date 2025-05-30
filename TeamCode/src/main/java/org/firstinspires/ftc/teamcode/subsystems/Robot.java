@@ -63,6 +63,7 @@ public class Robot {
         //limelight
 
         HardwareDevices.limelight = hardwareMap.get(Limelight3A.class, "limelight");
+        HardwareDevices.limelight.pipelineSwitch(0);
         HardwareDevices.limelight.setPollRateHz(100); // This sets how often we ask Limelight for data (100 times per second)
         HardwareDevices.limelight.start(); // This tells Limelight to start looking!
 

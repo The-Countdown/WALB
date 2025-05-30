@@ -8,13 +8,9 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 import org.firstinspires.ftc.teamcode.subsystems.Limelight;
 import org.firstinspires.ftc.teamcode.subsystems.Robot;
-
-import java.util.List;
-
 @com.qualcomm.robotcore.eventloop.opmode.TeleOp(name="TeleOpTesting", group="TeleOp")
 @Config
 public class TeleOp extends LinearOpMode {
-    private Limelight3A limelight;
     @Override
     public void runOpMode() {
         Robot walB = new Robot(this);
@@ -24,8 +20,6 @@ public class TeleOp extends LinearOpMode {
         Robot.HardwareDevices.headRotation.scaleRange(0.2, 0.8);
         int targetLeftPosition = Robot.HardwareDevices.leftArm.getCurrentPosition();
         int  targetRightPosition = Robot.HardwareDevices.rightArm.getCurrentPosition();
-        limelight.setPollRateHz(100);
-        limelight.start();
 
         waitForStart();
         // Runs repeatedly
@@ -34,7 +28,9 @@ public class TeleOp extends LinearOpMode {
             double rMotorPower = gamepad1.right_stick_y;
             double lMotorPower = gamepad1.left_stick_y;
             //drive
-            walB.drive.setPower(lMotorPower, rMotorPower);
+            if (!walB.limelight.isRunning) {
+                walB.drive.setPower(lMotorPower, rMotorPower);
+            }
             //head turn
             if (gamepad1.dpad_left) {
                 walB.head.servoRotation(Robot.HardwareDevices.headRotation.getPosition() - 0.02);
@@ -74,12 +70,13 @@ public class TeleOp extends LinearOpMode {
                 walB.claw.clawPosition(0);
             }
 
-            //even number
-            if (Limelight.getAprilTagID() % 2 == 1) {
-                walB.head.eyeRotation(0);
+            if (walB.limelight.getAprilTagID() == -1) {
+                telemetry.addLine("null");
+            } else if (walB.limelight.getAprilTagID() % 2 == 1) {
+                //walB.head.eyeRotation(0);
                 telemetry.addLine("even");
-            } else if (Limelight.getAprilTagID() % 2 == 0) {
-                walB.head.eyeRotation(1);
+            } else if (walB.limelight.getAprilTagID() % 2 == 0) {
+                //walB.head.eyeRotation(1);
                 telemetry.addLine("odd");
             }
 
@@ -94,6 +91,4 @@ public class TeleOp extends LinearOpMode {
 
 /*
 drive towards tag
-
-
  */
